@@ -60,7 +60,7 @@
       <children>
             <ImageView fitHeight="844.0" fitWidth="1284.0" layoutX="-7.0" pickOnBounds="true">
                <image>
-                  <Image url="@../../../../Desktop/default.jpg" />
+                  <Image url="@../../ui-images/default.jpg" />
                </image>
             </ImageView>
       </children>
