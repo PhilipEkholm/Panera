@@ -47,18 +47,18 @@ public class MainView {
 		root = new VBox();
 		menuBar = new MenuBar();
 		Scene primaryScene = new Scene(root, 600, 400);
-		
-		imageView.setImage(shownImage);
-		imageView.setFitWidth(primaryScene.getWidth());
-		imageView.fitWidthProperty().bind(primaryScene.widthProperty());
-		imageView.fitHeightProperty().bind(primaryScene.heightProperty());
-		imageView.setPreserveRatio(true);
 
 		this.primaryStage.setTitle("Panera");
 		this.primaryStage.getIcons().add(new Image("file:ui-images/panera.png"));
 		this.primaryStage.setScene(primaryScene);
 		
 		this.primaryStage.show();
+		
+		imageView.setImage(shownImage);
+		imageView.setFitWidth(primaryScene.getWidth());
+		imageView.fitWidthProperty().bind(primaryScene.widthProperty());
+		imageView.fitHeightProperty().bind(primaryScene.heightProperty());
+		imageView.setPreserveRatio(true);
 
 		root.getChildren().add(menuBar);
 		root.getChildren().add(imageView);
@@ -102,7 +102,14 @@ public class MainView {
 		open.setOnAction(new EventHandler<ActionEvent> () {
 			@Override
 			public void handle(ActionEvent event) {
-				controller.loadImage();
+				controller.openImage();
+			}
+		});
+		
+		saveAs.setOnAction(new EventHandler<ActionEvent> () {
+			@Override
+			public void handle(ActionEvent event) {
+				controller.saveImageAs();
 			}
 		});
 	}
