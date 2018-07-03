@@ -11,12 +11,14 @@ import javafx.stage.Stage;
 import views.MainView;
 
 public class MainController{
+	private ImageController imageController;
 	private MainView mainWindow;
 	private BufferedImage currentImage;
 	private String imageName;
 	
 	public MainController(Stage primaryStage) {
-		mainWindow = new MainView(primaryStage, this);
+		imageController = new ImageController(this);
+		mainWindow = new MainView(primaryStage, this, imageController);
 	}
 	
 	public void openImage() {
@@ -37,7 +39,7 @@ public class MainController{
 		}
 		
 		imageName = inputFile.getName();
-		refreshViewedImage();
+		mainWindow.setViewedImage(currentImage);
 	}
 	
 	public void saveImageAs() {
@@ -56,15 +58,20 @@ public class MainController{
 		}
 	}
 	
-	private void refreshViewedImage() {
-		mainWindow.setViewedImage(currentImage);
-	}
-	
 	private static String getFileExtension(String fileName) {
 		int dotPosition = fileName.lastIndexOf('.');
 		
 		/* Do not include the dot in the file extension and set to lowercase */
 		return (fileName.substring(dotPosition + 1, fileName.length()).toLowerCase());
+	}
+	
+	public BufferedImage getImage() {
+		return currentImage;
+	}
+	
+	public void setImage(BufferedImage img) {
+		currentImage = img;
+		mainWindow.setViewedImage(img);
 	}
 }
 

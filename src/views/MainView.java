@@ -3,7 +3,9 @@ package views;
 import java.awt.image.BufferedImage;
 import java.util.Calendar;
 
+import controllers.ImageController;
 import controllers.MainController;
+import filters.Filter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,26 +25,30 @@ public class MainView {
 	private final VBox root;
 	private final Stage primaryStage;
 	private final MenuBar menuBar;
-	private final MainController controller;
+	private final MainController mainController;
+	private final ImageController imageController;
 	private final Calendar cal = Calendar.getInstance();
 	private final ImageView imageView = new ImageView();
 	private Image shownImage = new Image("file:ui-images/default.jpg");
 	
-	final Menu file 	= new Menu("File");
-	final Menu filters 	= new Menu("Filters");
-	final Menu help     = new Menu("Help");
+	private final Menu file 	= new Menu("File");
+	private final Menu filters 	= new Menu("Filters");
+	private final Menu help     = new Menu("Help");
 	
-	final MenuItem open    = new MenuItem("Open...");
+	private final MenuItem open    = new MenuItem("Open...");
 	
-	final MenuItem close   = new MenuItem("Close");
-	final MenuItem save    = new MenuItem("Save");
-	final MenuItem saveAs  = new MenuItem("Save As...");
+	private final MenuItem close   = new MenuItem("Close");
+	private final MenuItem save    = new MenuItem("Save");
+	private final MenuItem saveAs  = new MenuItem("Save As...");
 	
-	final MenuItem aboutPanera = new MenuItem("About Panera...");
+	private final MenuItem greyScale = new MenuItem("Grey Scale");
+	
+	private final MenuItem aboutPanera = new MenuItem("About Panera...");
 
-	public MainView(Stage primaryStage, MainController controller) {
+	public MainView(Stage primaryStage, MainController controller, ImageController ic) {
 		this.primaryStage = primaryStage;
-		this.controller = controller;
+		mainController = controller;
+		imageController = ic;
 
 		root = new VBox();
 		menuBar = new MenuBar();
@@ -75,6 +81,8 @@ public class MainView {
 			saveAs
 		);
 		
+		filters.getItems().add(greyScale);
+		
 		help.getItems().addAll(
 			aboutPanera
 		);
@@ -102,14 +110,21 @@ public class MainView {
 		open.setOnAction(new EventHandler<ActionEvent> () {
 			@Override
 			public void handle(ActionEvent event) {
-				controller.openImage();
+				mainController.openImage();
 			}
 		});
 		
 		saveAs.setOnAction(new EventHandler<ActionEvent> () {
 			@Override
 			public void handle(ActionEvent event) {
-				controller.saveImageAs();
+				mainController.saveImageAs();
+			}
+		});
+		
+		filters.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				imageController.applyFilter(Filter.GREYSCALE);
 			}
 		});
 	}
